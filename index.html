@@ -81,47 +81,57 @@
 					<p class="fragment">Variables</p>
 				</section>
 
+				<section>
+					<section id="fragments">
+						<h2>Inventories</h2>
+						<p class="fragment">A file describing your server environment</p>
+						<h3>Examples</h3>
+						<p class="fragment">testing</p>
+						<p class="fragment">staging</p>
+						<p class="fragment">production</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Example production inventory
+							```
+							[spark-master-node]
+							spark-master.yourcompany.com
+
+							[spark-worker-nodes]
+							spark-worker01.yourcompany.com
+							spark-worker02.yourcompany.com
+							spark-worker03.yourcompany.com
+							spark-worker04.yourcompany.com
+							spark-worker05.yourcompany.com
+
+							[spark-nodes:children]
+							spark-master-node
+							spark-worker-nodes
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Inventory groups
+							```
+							[spark-nodes:children]
+							spark-master-node
+							spark-worker-nodes
+							```
+							Access all spark nodes with **{{ groups['spark-nodes'] }}**
+						</script>
+					</section>
+				</section>
+
 				<section id="fragments">
-					<h2>Inventories</h2>
-					<p class="fragment">A file describing your server environment</p>
-					<h3>Examples</h3>
-					<p class="fragment">testing</p>
-					<p class="fragment">staging</p>
-					<p class="fragment">production</p>
+					<h2>Playbooks</h2>
+					<p class="fragment">A YAML file describing where and how to run plays</p>
+					<p class="fragment">Plays can be standalone in the playbook or in <em>roles</em></p>
+					<p class="fragment">Using <em>roles</em> is encouraged for code re-use</p>
+
 				</section>
 
-				<section data-markdown>
-					<script type="text/template">
-						## Example production inventory
-						```
-						[spark-master-node]
-						spark-master.yourcompany.com
 
-						[spark-worker-nodes]
-						spark-worker01.yourcompany.com
-						spark-worker02.yourcompany.com
-						spark-worker03.yourcompany.com
-						spark-worker04.yourcompany.com
-						spark-worker05.yourcompany.com
-
-						[spark-nodes:children]
-						spark-master-node
-						spark-worker-nodes
-						```
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## Inventory groups
-						```
-						[spark-nodes:children]
-						spark-master-node
-						spark-worker-nodes
-						```
-						Access all spark nodes with **{{ groups['spark-nodes'] }}**
-					</script>
-				</section>
 
 			</div>
 
