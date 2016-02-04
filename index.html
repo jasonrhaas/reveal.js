@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js – The HTML Presentation Framework</title>
+		<title>Ansible 101</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+		<meta name="description" content="A gentle introduction to Ansible">
+		<meta name="author" content="Jason Haas">
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -90,6 +90,7 @@
 						<p class="fragment">staging</p>
 						<p class="fragment">production</p>
 					</section>
+
 					<section data-markdown>
 						<script type="text/template">
 							## Example production inventory
@@ -110,6 +111,7 @@
 							```
 						</script>
 					</section>
+
 					<section data-markdown>
 						<script type="text/template">
 							## Inventory groups
@@ -125,13 +127,91 @@
 
 				<section id="fragments">
 					<h2>Playbooks</h2>
-					<p class="fragment">A YAML file describing where and how to run plays</p>
-					<p class="fragment">Plays can be standalone in the playbook or in <em>roles</em></p>
+					<p class="fragment">YAML file describing how to run plays</p>
+					<p class="fragment">Plays can be standalone or in <em>roles</em></p>
 					<p class="fragment">Using <em>roles</em> is encouraged for code re-use</p>
-
+					<p class="fragment">... More detail later on</p>
 				</section>
 
+				<section>
+					<section id="fragments">
+						<h2>Variables</h2>
+						<p class="fragment">Variables are used for any value that may need to change.</p>
+						<h4 class="fragment">Types of variables</h4>
+						<p class="fragment">role defaults</p>
+						<p class="fragment">role vars</p>
+						<p class="fragment">playbook role vars</p>
+						<p class="fragment">inventory vars</p>
+						<p class="fragment">host_vars</p>
+						<p class="fragment">group_vars</p>
+						<p class="fragment">command line vars</p>
+					</section>
+					<section id="fragments">
+						<h2>Sooo many vars!</h2>
+						<p class="fragment">It's kind of confusing</p>
+						<h2 class="fragment">Rules of thumb</h2>
+						<p class="fragment">Role <em>defaults</em> are lowest precensence</p>
+						<p class="fragment">Role <em>defaults</em> are "meant" to be overridden</p>
+						<p class="fragment"><em>group_vars</em> for site specific variables, API keys, accounts</p>
+						<p class="fragment"><em>host_vars</em> for host specific variables</p> 
+						<p class="fragment"><code>--extra-vars</code> for command line one-off playbook runs</p>
+					</section>
+				</section>
 
+				<section id="fragments">
+					<h2>Know your <strong>roles</strong></h2>
+					<p class="fragment">Roles allow for "containerized" code</p>
+					<p class="fragment">Think of roles as templates to deploy applications</p>
+					<p class="fragment">You should use roles for everything possible</p>
+				</section>
+				<section>
+					<section id="fragments">
+						<h2>Structure of a role</h2>
+						<p class="fragment">defaults</p>
+						<p class="fragment">handlers</p>
+						<p class="fragment">meta</p>
+						<p class="fragment">tasks</p>
+						<p class="fragment">templates</p>
+						<p class="fragment">vars</p>
+					</section>
+					<section id="fragments">
+						<h2>defaults</h2>
+						<p>roles/kafka/defaults/main.yml</p>
+						<pre><code>
+---
+kafka_scala_version: 2.11
+kafka_version: 0.9.0.0
+kafka_install_dir: /opt/kafka
+kafka_config_dir: /opt/kafka/default/config
+kafka_log_dir: /opt/kafka/default/logs
+kafka_data_log_dir:
+  - "/opt/kafka/topic-logs"
+kafka_port: 9092
+kafka_message_max: 10000000
+kafka_replica_fetch_max_bytes: 15000000
+kafka_consumer_message_max: 16777216
+kafka_num_partitions: "{{ groups['kafka-nodes'] | length }}"
+kafka_replication_factor: "{{ groups['kafka-nodes'] | length }}"
+kafka_log_retention_hours: 168
+kafka_num_io_threads: 8
+repository_infrastructure: "{{ apache_mirror }}/kafka/{{ kafka_version }}"
+						</code></pre>
+					</section>
+
+					<section id="fragments">
+						<h2>handlers</h2>
+						<p class="fragment">Handles service stop/stop/restarts</p>
+						<p class="fragment">If a file gets changed multiple times, only reboot once</p>
+						<pre><code>
+---
+- name: restart kafka
+   supervisorctl:
+     name: kafka
+     state: restarted
+     					</code></pre>
+					</section>
+
+				</section>
 
 			</div>
 
