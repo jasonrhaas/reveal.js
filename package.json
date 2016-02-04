@@ -1,7 +1,7 @@
 {
-  "name": "Ansible 101",
+  "name": "reveal.js",
   "version": "3.2.0",
-  "description": "A gentle introduction to Ansible",
+  "description": "The HTML Presentation Framework",
   "homepage": "http://lab.hakim.se/reveal-js",
   "subdomain": "revealjs",
   "main": "js/reveal.js",
@@ -10,13 +10,13 @@
     "start": "grunt serve"
   },
   "author": {
-    "name": "Jason Haas",
-    "email": "jasonrhaas@gmail.com",
-    "web": "http://blog.jasonrhaas.com"
+    "name": "Hakim El Hattab",
+    "email": "hakim.elhattab@gmail.com",
+    "web": "http://hakim.se"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jasonrhaas/reveal.js.git"
+    "url": "git://github.com/hakimel/reveal.js.git"
   },
   "engines": {
     "node": "~4.1.1"
