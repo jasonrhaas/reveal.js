@@ -60,6 +60,10 @@
 					<p class="fragment">ssh access to servers</p>
 				</section>
 
+<!-- 				<section data-background="./images/ansible_infra.png">
+					<h2> Ansible infra </h2>
+				</section> -->
+
 				<section id="fragments">
 					<h2>Why use Ansible?</h2>
 					<p class="fragment">Infrastructure as code</p>
@@ -120,7 +124,8 @@
 							spark-master-node
 							spark-worker-nodes
 							```
-							Access all spark nodes with **{{ groups['spark-nodes'] }}**
+							Access all spark nodes with {{ groups['spark-nodes'] }}
+							
 						</script>
 					</section>
 				</section>
@@ -137,7 +142,7 @@
 					<section id="fragments">
 						<h2>Variables</h2>
 						<p class="fragment">Variables are used for any value that may need to change.</p>
-						<h4 class="fragment">Types of variables</h4>
+						<h4 class="fragment">Places variables can be set</h4>
 						<p class="fragment">role defaults</p>
 						<p class="fragment">role vars</p>
 						<p class="fragment">playbook role vars</p>
@@ -150,7 +155,7 @@
 						<h2>Sooo many vars!</h2>
 						<p class="fragment">It's kind of confusing</p>
 						<h2 class="fragment">Rules of thumb</h2>
-						<p class="fragment">Role <em>defaults</em> are lowest precensence</p>
+						<p class="fragment">Role <em>defaults</em> are lowest precedence</p>
 						<p class="fragment">Role <em>defaults</em> are "meant" to be overridden</p>
 						<p class="fragment"><em>group_vars</em> for site specific variables, API keys, accounts</p>
 						<p class="fragment"><em>host_vars</em> for host specific variables</p> 
@@ -164,6 +169,7 @@
 					<p class="fragment">Think of roles as templates to deploy applications</p>
 					<p class="fragment">You should use roles for everything possible</p>
 				</section>
+
 				<section>
 					<section id="fragments">
 						<h2>Structure of a role</h2>
