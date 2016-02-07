@@ -48,7 +48,7 @@
 					</script>
 				</section>
 
-				<section id="fragments">
+				<section>
 					<h2>What actually is Ansible?</h2>
 					<p class="fragment">Framework that simplifies server provisioning.</p>
 					<p class="fragment">Agentless</p>
@@ -60,25 +60,27 @@
 					<p class="fragment">ssh access to servers</p>
 				</section>
 
-<!-- 				<section data-background="./images/ansible_infra.png">
-					<h2> Ansible infra </h2>
-				</section> -->
+				<section data-background="https://d1cg27r99kkbpq.cloudfront.net/static/extra/43-ansible-multi-node-deployment-workflow.png">
+				</section>
 
-				<section id="fragments">
+				<section>
 					<h2>Why use Ansible?</h2>
 					<p class="fragment">Infrastructure as code</p>
 					<p class="fragment">Flexibility to scale </p>
 					<p class="fragment">Repeatable test environments </p>
 				</section>
 
-				<section id="fragments">
+				<section>
 					<h2>Alternatives to Ansible</h2>
 					<p class="fragment">Chef </p>
 					<p class="fragment">Puppet </p>
 					<p class="fragment">Salt </p>
 				</section>
 
-				<section id="fragments">
+				<section data-background="http://www.ansible.com/hs-fs/hubfs/2015_Images/Blog/githubstars.png?t=1454697724466">
+				</section>
+
+				<section>
 					<h2>Ansible key components</h2>
 					<p class="fragment">Inventories</p>
 					<p class="fragment">Playbooks</p>
@@ -86,7 +88,7 @@
 				</section>
 
 				<section>
-					<section id="fragments">
+					<section>
 						<h2>Inventories</h2>
 						<p class="fragment">A file describing your server environment</p>
 						<h3>Examples</h3>
@@ -130,7 +132,7 @@
 					</section>
 				</section>
 
-				<section id="fragments">
+				<section>
 					<h2>Playbooks</h2>
 					<p class="fragment">YAML file describing how to run plays</p>
 					<p class="fragment">Plays can be standalone or in <em>roles</em></p>
@@ -139,7 +141,7 @@
 				</section>
 
 				<section>
-					<section id="fragments">
+					<section>
 						<h2>Variables</h2>
 						<p class="fragment">Variables are used for any value that may need to change.</p>
 						<h4 class="fragment">Places variables can be set</h4>
@@ -151,7 +153,7 @@
 						<p class="fragment">group_vars</p>
 						<p class="fragment">command line vars</p>
 					</section>
-					<section id="fragments">
+					<section>
 						<h2>Sooo many vars!</h2>
 						<p class="fragment">It's kind of confusing</p>
 						<h2 class="fragment">Rules of thumb</h2>
@@ -163,7 +165,7 @@
 					</section>
 				</section>
 
-				<section id="fragments">
+				<section>
 					<h2>Know your <strong>roles</strong></h2>
 					<p class="fragment">Roles allow for "containerized" code</p>
 					<p class="fragment">Think of roles as templates to deploy applications</p>
@@ -171,7 +173,7 @@
 				</section>
 
 				<section>
-					<section id="fragments">
+					<section>
 						<h2>Structure of a role</h2>
 						<p class="fragment">defaults</p>
 						<p class="fragment">handlers</p>
@@ -180,7 +182,7 @@
 						<p class="fragment">templates</p>
 						<p class="fragment">vars</p>
 					</section>
-					<section id="fragments">
+					<section>
 						<h2>defaults</h2>
 						<p>roles/kafka/defaults/main.yml</p>
 						<pre><code>
@@ -204,7 +206,7 @@ repository_infrastructure: "{{ apache_mirror }}/kafka/{{ kafka_version }}"
 						</code></pre>
 					</section>
 
-					<section id="fragments">
+					<section>
 						<h2>handlers</h2>
 						<p class="fragment">Handles service stop/stop/restarts</p>
 						<p class="fragment">If a file gets changed multiple times, only reboot once</p>
