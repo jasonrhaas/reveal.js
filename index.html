@@ -41,33 +41,45 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 
-				<section data-markdown>
-					<script type="text/template">
-						## What is Ansible?
-						"An ansible is a fictional machine capable of instantaneous or superluminal communication." -- Google
-					</script>
+				<section>
+					<h2>Ansible 101</h2>
+					<p class="fragment">What is Ansible?</p>
+					<p class="fragment">Why use Ansible?</p>
+					<p class="fragment">Ansible code structure</p>
+					<p class="fragment">Using Ansible in practice</p>
+
 				</section>
 
 				<section>
-					<h2>What actually is Ansible?</h2>
+					<h2>What is Ansible?</h2>
 					<p class="fragment">Framework that simplifies server provisioning.</p>
 					<p class="fragment">Agentless</p>
 					<p class="fragment">Open Source</p>
 					<p class="fragment">Written in Python</p>
 					<p class="fragment">Recently aquired by Red Hat</p>
-					<h3>Requirements</h3>
+					<h3 class="fragment">Requirements</h3>
 					<p class="fragment">Linux, Mac OSX, Windows</p>
 					<p class="fragment">ssh access to servers</p>
+				</section>
+
+				<section>
+					<h2>Why use Ansible? (Pros)</h2>
+					<p class="fragment">Batteries included</p>
+					<p class="fragment">Infrastructure as code</p>
+					<p class="fragment">Repeatable test environments </p>
+					<p class="fragment">Flexibility to scale </p>
+					<p class="fragment">It forks</p>
 				</section>
 
 				<section data-background="https://d1cg27r99kkbpq.cloudfront.net/static/extra/43-ansible-multi-node-deployment-workflow.png">
 				</section>
 
 				<section>
-					<h2>Why use Ansible?</h2>
-					<p class="fragment">Infrastructure as code</p>
-					<p class="fragment">Flexibility to scale </p>
-					<p class="fragment">Repeatable test environments </p>
+					<h2>Ansible cons</h2>
+					<img class="fragment" data-src="https://i.imgflip.com/yv0lm.jpg">
+					<p class="fragment">Need to understand code base</p>
+					<p class="fragment">Can get overly complex</p>
+					<p class="fragment">It's fragile</p>
 				</section>
 
 				<section>
@@ -77,12 +89,14 @@
 					<p class="fragment">Salt </p>
 				</section>
 
-				<section data-background="http://www.ansible.com/hs-fs/hubfs/2015_Images/Blog/githubstars.png?t=1454697724466">
+				<section data-background="http://www.ansible.com/hs-fs/hubfs/2015_Images/Blog/githubstars.png?t=1454970495302&width=613">
 				</section>
+
 
 				<section>
 					<h2>Ansible key components</h2>
 					<p class="fragment">Inventories</p>
+					<p class="fragment">Modules</p>
 					<p class="fragment">Playbooks</p>
 					<p class="fragment">Variables</p>
 				</section>
@@ -101,35 +115,28 @@
 						<script type="text/template">
 							## Example production inventory
 							```
-							[spark-master-node]
-							spark-master.yourcompany.com
-
-							[spark-worker-nodes]
-							spark-worker01.yourcompany.com
-							spark-worker02.yourcompany.com
-							spark-worker03.yourcompany.com
-							spark-worker04.yourcompany.com
-							spark-worker05.yourcompany.com
-
-							[spark-nodes:children]
-							spark-master-node
-							spark-worker-nodes
+							[kafka-nodes]
+							kafka01.your-company.com
+							kafka02.your-company.com
+							kafka03.your-company.com
+							kafka04.your-company.com
+							kafka05.your-company.com
 							```
+							Access all kafka nodes with {{ groups['kafka-nodes'] }}
 						</script>
 					</section>
 
-					<section data-markdown>
-						<script type="text/template">
-							## Inventory groups
-							```
-							[spark-nodes:children]
-							spark-master-node
-							spark-worker-nodes
-							```
-							Access all spark nodes with {{ groups['spark-nodes'] }}
-							
-						</script>
-					</section>
+				</section>
+
+				<section>
+					<h2>Modules</h2>
+					<p class="fragment">Built in methods to Ansible</p>
+					<h5 class="fragment">Examples:</h5>
+					<p class="fragment">apt, yum</p>
+					<p class="fragment">template</p>
+					<p class="fragment">file</p>
+					<p class="fragment">cron</p>
+
 				</section>
 
 				<section>
@@ -155,8 +162,11 @@
 					</section>
 					<section>
 						<h2>Sooo many vars!</h2>
-						<p class="fragment">It's kind of confusing</p>
-						<h2 class="fragment">Rules of thumb</h2>
+						<img data-src="http://memecrunch.com/meme/15FEP/confused-guy/image.jpg?w=551&c=1">
+					</section>
+
+					<section>
+						<h2>Variable guidelines</h2>
 						<p class="fragment">Role <em>defaults</em> are lowest precedence</p>
 						<p class="fragment">Role <em>defaults</em> are "meant" to be overridden</p>
 						<p class="fragment"><em>group_vars</em> for site specific variables, API keys, accounts</p>
@@ -208,8 +218,8 @@ repository_infrastructure: "{{ apache_mirror }}/kafka/{{ kafka_version }}"
 
 					<section>
 						<h2>handlers</h2>
-						<p class="fragment">Handles service stop/stop/restarts</p>
-						<p class="fragment">If a file gets changed multiple times, only reboot once</p>
+						<p>Handles service stop/stop/restarts</p>
+						<p>If a file gets changed multiple times, only reboot once</p>
 						<pre><code>
 ---
 - name: restart kafka
@@ -219,6 +229,89 @@ repository_infrastructure: "{{ apache_mirror }}/kafka/{{ kafka_version }}"
      					</code></pre>
 					</section>
 
+					<section>
+						<h2>meta</h2>
+						<p>Any roles that are dependencies</p>
+						<pre><code>
+---
+dependencies:
+  - { role: supervisord, when: "supervisord_has_run is not defined" }
+  - { role: java, when: "java_has_run is not defined" }
+  						</code></pre>
+					</section>
+
+					<section>
+						<h2>tasks</h2>
+						<p>Sequential list of plays</p>
+						<pre><code>
+- name: configure kafka brokers
+  template:
+    src=server.properties.j2
+    dest={{ kafka_config_dir }}/server.properties
+    mode=0644
+  notify:
+    - restart kafka
+  tags: kafka
+  						</code></pre>
+					</section>
+
+					<section>
+						<h2>templates</h2>
+						<p>Good for using variables in configuration files</p>
+						<pre><code>
+port={{ kafka_port }}
+host.name={{ inventory_hostname }}
+advertised.host.name={{ inventory_hostname }}
+advertised.port={{ kafka_port }}
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>vars</h2>
+						<p>A good use for this is RedHat vs. Debian vars</p>
+						<p>Can do things like:</p>
+						<pre><code>
+# Include variables and define needed variables.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+						</code></pre>
+						<p>Correct vars for each linux distro</p>
+					</section>
+
+				</section>
+
+				<section>
+					<h2>Actually running Ansible</h2>
+					<h3 class="fragment">Guidelines</h3>
+					<p class="fragment">Use a top level playbook and tags</p>
+					<p class="fragment">Don't bother with one off individual playbooks</p>
+
+				</section>
+
+				<section>
+					<h2>Ansible-Symphony</h2>
+					<p class="fragment">IST's open source Ansible repo</p>
+					<h4 class="fragment">Some tools included</h3>
+					<p class="fragment">Hadoop</p>
+					<p class="fragment">HBase</p>
+					<p class="fragment">Spark</p>
+					<p class="fragment">Elastic Search</p>
+					<p class="fragment">Kafka</p>
+
+				</section>
+
+				<section>
+					<h2>Lets run some code!</h2>
+					<p>1. Quickstart with ansible-symphony</p>
+					<p>2. Writing a simple role</p>
+				</section>
+
+				<section>
+					<h2>Resources</h2>
+					<p>docs.ansible.com</p>
+					<p>sysadmincasts.com</p>
+					<p>github.com/istresearch/ansible-symphony</p>
+					<p>blog.jasonrhaas.com</p>
 				</section>
 
 			</div>
@@ -237,6 +330,7 @@ repository_infrastructure: "{{ apache_mirror }}/kafka/{{ kafka_version }}"
 				progress: true,
 				history: true,
 				center: true,
+				slideNumber: 'c/t',
 
 				transition: 'slide', // none/fade/slide/convex/concave/zoom
 
