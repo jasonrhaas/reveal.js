@@ -64,9 +64,9 @@
 
 				<section>
 					<h2>Why use Ansible? (Pros)</h2>
-					<p class="fragment">Batteries included</p>
 					<p class="fragment">Infrastructure as code</p>
-					<p class="fragment">Repeatable test environments </p>
+					<p class="fragment">Repeatable test environments - no snowflakes</p>
+					<p class="fragment">Batteries included</p>
 					<p class="fragment">Flexibility to scale </p>
 					<p class="fragment">It forks</p>
 				</section>
@@ -222,7 +222,7 @@ repository_infrastructure: "{{ apache_mirror }}/kafka/{{ kafka_version }}"
 
 					<section>
 						<h2>handlers</h2>
-						<p>Handles service stop/stop/restarts</p>
+						<p>Handles service start/stop/restarts</p>
 						<p>If a file gets changed multiple times, only reboot once</p>
 						<pre><code>
 ---
@@ -285,8 +285,7 @@ advertised.port={{ kafka_port }}
 				</section>
 
 				<section>
-					<h2>Actually running Ansible</h2>
-					<h3 class="fragment">Guidelines</h3>
+					<h2>Playbook guidelines</h2>
 					<p class="fragment">Use a top level playbook and tags</p>
 					<p class="fragment">Don't bother with one off individual playbooks</p>
 
@@ -306,8 +305,9 @@ advertised.port={{ kafka_port }}
 
 				<section>
 					<h2>Lets run some code!</h2>
-					<p>1. Quickstart with ansible-symphony</p>
-					<p>2. Writing a simple role</p>
+					<p>1. Ad-hoc commands cluster</p>
+					<p>2. Walk through of simple role</p>
+					<h5>sidenote: don't test ansible code in prod!</h5>
 				</section>
 
 				<section>
@@ -336,7 +336,7 @@ advertised.port={{ kafka_port }}
 				center: true,
 				slideNumber: 'c/t',
 
-				transition: 'default', // none/fade/slide/convex/concave/zoom
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
 
 				// Optional reveal.js plugins
 				dependencies: [
